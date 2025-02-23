@@ -1,0 +1,393 @@
+<!-- 
+  This is a comprehensive HTML file that demonstrates various HTML tags 
+  and features. Each section includes comments explaining the usage.
+  You can use this as a reference or part of a dataset to distinguish 
+  AI-generated code from user-generated code.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 
+    The DOCTYPE above indicates that this is an HTML5 document.
+    The <html> tag wraps the entire page content.
+    We use lang="en" for English language.
+  -->
+  <meta charset="UTF-8">
+  <!-- 
+    The <meta> charset tag specifies the character encoding for the HTML document (UTF-8).
+  -->
+
+  <title>Comprehensive HTML Example</title>
+  <!-- 
+    The <title> tag defines the title in the browser's title bar or tab.
+  -->
+
+  <meta name="description" content="Example HTML document demonstrating various HTML5 tags and features.">
+  <meta name="keywords" content="HTML, Example, Tags, Comprehensive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 
+    <meta> tags provide metadata about the document.
+    - description
+    - keywords
+    - viewport for responsive design
+  -->
+
+  <base href="https://example.com/">
+  <!-- 
+    The <base> tag defines the base URL for all relative URLs in the document.
+    If you use relative links, they will be relative to this base URL.
+  -->
+
+  <style>
+    /* 
+      Example of internal CSS. 
+      We set a font-family for the body, and define a highlight class.
+    */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .highlight {
+      background-color: yellow;
+    }
+
+    header, nav, main, footer, aside, section, article {
+      margin: 16px;
+      padding: 16px;
+      border: 1px solid #ccc;
+    }
+
+    /* Example style for a code snippet */
+    code {
+      background-color: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    The <body> tag contains all the content of an HTML document.
+  -->
+
+  <!-- HEADER SECTION -->
+  <header>
+    <!-- 
+      <header> typically contains introductory content or navigation elements.
+    -->
+    <h1>Comprehensive HTML Example</h1>
+    <!-- <h1> is the highest-level heading on a page. -->
+    <p>
+      <strong>Note:</strong> This document aims to show common and less common HTML tags.
+    </p>
+  </header>
+
+  <!-- NAVIGATION SECTION -->
+  <nav>
+    <!-- 
+      <nav> is for primary or secondary navigation links.
+    -->
+    <ul>
+      <!-- 
+        <ul> stands for an unordered list.
+      -->
+      <li><a href="#section1">Go to Section One</a></li>
+      <li><a href="#section2">Go to Section Two</a></li>
+      <li><a href="https://example.com" target="_blank" rel="noopener">External Link</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT AREA -->
+  <main>
+    <!-- 
+      <main> is the dominant content area unique to the document.
+    -->
+
+    <!-- ARTICLE SECTION -->
+    <article id="section1">
+      <!-- 
+        <article> represents an independent piece of content that can stand on its own.
+      -->
+      <h2>Article Heading</h2>
+      <p>
+        This is a paragraph demonstrating various inline tags:
+        <strong>strong</strong> for important text,
+        <em>emphasis</em> for emphasized text,
+        <mark>mark</mark> for highlighting,
+        and <span class="highlight">a custom highlight class</span>.
+      </p>
+      <p>
+        Let’s also show <b>bold</b> and <i>italic</i> text in a more traditional way.
+        Sometimes you might use <u>underline</u> or <s>strikethrough</s>.
+      </p>
+      <p>
+        <abbr title="HyperText Markup Language">HTML</abbr> is the standard language for creating web pages.
+      </p>
+
+      <!-- FIGURE + FIGCAPTION (IMAGE EXAMPLE) -->
+      <figure>
+        <!-- 
+          <figure> is used to group an illustration, image, diagram, or code snippet.
+        -->
+        <img src="images/example.jpg" alt="Example Image" width="300" height="200">
+        <!-- 
+          The <img> tag embeds an image. 
+          alt is alternative text for accessibility.
+        -->
+        <figcaption>An example image with a caption.</figcaption>
+      </figure>
+
+      <!-- BLOCKQUOTE, CITE, Q EXAMPLES -->
+      <blockquote cite="https://www.goodreads.com/quotes">
+        <!-- 
+          <blockquote> represents a section quoted from another source.
+        -->
+        “This is an example of a blockquote, usually from an external source.”
+      </blockquote>
+      <p>
+        Short inline quote: <q>Here is an inline quoted text.</q> with the <q>q</q> tag.
+      </p>
+      <p>
+        <cite>Famous Author</cite>
+        <!-- 
+          <cite> is used to describe a reference to a creative work (e.g., book, website, etc.).
+        -->
+      </p>
+
+      <!-- AUDIO EXAMPLE -->
+      <audio controls>
+        <!-- 
+          The <audio> tag is used to embed sound content.
+        -->
+        <source src="media/example.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+
+      <!-- VIDEO EXAMPLE -->
+      <video controls width="320" height="240">
+        <!-- 
+          The <video> tag is used to embed video content.
+        -->
+        <source src="media/example.mp4" type="video/mp4">
+        Your browser does not support the video element.
+      </video>
+
+      <!-- EMBED EXAMPLE -->
+      <embed src="docs/sample.pdf" type="application/pdf" width="400" height="300" />
+      <!-- 
+        <embed> is used to embed external content (like PDFs).
+      -->
+
+      <!-- OBJECT EXAMPLE -->
+      <object data="docs/sample.pdf" type="application/pdf" width="400" height="300">
+        <p>
+          Your browser does not support embedded PDFs. 
+          <a href="docs/sample.pdf">Download PDF</a> instead.
+        </p>
+      </object>
+      <!-- 
+        <object> can embed external resources like PDFs or Flash (deprecated).
+      -->
+
+      <!-- FORM EXAMPLE -->
+      <form action="/submit" method="post">
+        <!-- 
+          <form> is used to collect user input.
+          action: the server endpoint.
+          method: HTTP method (GET/POST).
+        -->
+
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname" placeholder="Enter first name">
+        <br><br>
+
+        <label for="favcolor">Favorite Color:</label>
+        <input type="color" id="favcolor" name="favcolor">
+        <br><br>
+
+        <label for="cars">Choose a car:</label>
+        <select id="cars" name="cars">
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="opel">Opel</option>
+          <option value="audi">Audi</option>
+        </select>
+        <br><br>
+
+        <input type="checkbox" id="subscribe" name="subscribe" value="newsletter">
+        <label for="subscribe">Subscribe to newsletter</label>
+        <br><br>
+
+        <input type="radio" id="option1" name="choice" value="Option1" checked>
+        <label for="option1">Option 1</label>
+        <input type="radio" id="option2" name="choice" value="Option2">
+        <label for="option2">Option 2</label>
+        <br><br>
+
+        <label for="comments">Comments:</label><br>
+        <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Your comments..."></textarea>
+        <br><br>
+
+        <button type="submit">Submit</button>
+        <input type="reset" value="Reset Form">
+      </form>
+    </article>
+
+    <!-- ADDITIONAL SECTION -->
+    <section id="section2">
+      <!-- 
+        <section> defines a standalone section in a document, typically with a title.
+      -->
+      <h2>Section Heading</h2>
+      <p>
+        Here is some text inside a section. 
+        You can also display a <code>&lt;code&gt; snippet</code> for inline code examples.
+      </p>
+
+      <!-- TABLE EXAMPLE -->
+      <table border="1">
+        <!-- 
+          <table> creates a table; border="1" is a simple way to visualize borders for example.
+        -->
+        <caption>Example Table</caption>
+        <!-- 
+          <caption> is a brief description of the table.
+        -->
+        <thead>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+            <th>Header 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Data 1.1</td>
+            <td>Data 1.2</td>
+            <td>Data 1.3</td>
+          </tr>
+          <tr>
+            <td>Data 2.1</td>
+            <td>Data 2.2</td>
+            <td>Data 2.3</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Table Footer</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- LIST EXAMPLES -->
+      <h3>Unordered List</h3>
+      <ul>
+        <li>Item A</li>
+        <li>Item B</li>
+        <li>Item C
+          <ul>
+            <li>Sub-item C1</li>
+            <li>Sub-item C2</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>Ordered List</h3>
+      <ol>
+        <li>Step 1</li>
+        <li>Step 2</li>
+        <li>Step 3</li>
+      </ol>
+
+      <!-- DETAILS & SUMMARY EXAMPLE -->
+      <details>
+        <summary>Additional Information</summary>
+        <p>
+          This text is revealed when the details element is expanded.
+        </p>
+      </details>
+
+      <!-- PROGRESS EXAMPLE -->
+      <p>Progress Example:</p>
+      <progress value="70" max="100"></progress>
+
+      <!-- METER EXAMPLE -->
+      <p>Disk Usage Meter:</p>
+      <meter value="0.7" min="0" max="1">70%</meter>
+      <!-- 
+        <meter> is used to indicate a scalar measurement within a known range.
+      -->
+
+      <!-- SUP & SUB EXAMPLE -->
+      <p>
+        Superscript example: 10<sup>2</sup> = 100.
+        Subscript example: H<sub>2</sub>O.
+      </p>
+
+      <!-- RUBY EXAMPLE -->
+      <p>
+        Ruby example for East Asian typography:
+        <ruby>
+          漢 <rt>hàn</rt>
+          字 <rt>zì</rt>
+        </ruby>
+      </p>
+
+      <!-- CANVAS EXAMPLE -->
+      <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+        Your browser does not support the HTML canvas tag.
+      </canvas>
+
+      <!-- BASIC INLINE JAVASCRIPT EXAMPLE -->
+      <script>
+        // This script draws a simple rectangle on the canvas.
+        const canvas = document.getElementById("myCanvas");
+        if (canvas && canvas.getContext) {
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#FF0000";
+          ctx.fillRect(20, 20, 100, 50);
+        }
+      </script>
+    </section>
+  </main>
+
+  <!-- ASIDE EXAMPLE -->
+  <aside>
+    <!-- 
+      <aside> contains content indirectly related to the main content.
+    -->
+    <h3>Side Note</h3>
+    <p>
+      This is an aside content block, often used for side notes or advertisements.
+    </p>
+  </aside>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <!-- 
+      <footer> usually contains page footer information such as author, copyright, etc.
+    -->
+    <p>&copy; 2025 My Example Website. All rights reserved.</p>
+    <small>Last updated on <time datetime="2025-02-23">February 23, 2025</time>.</small>
+    <!-- 
+      <time> tag is used to represent a specific time, date, or both.
+    -->
+  </footer>
+
+  <!-- NOSCRIPT EXAMPLE -->
+  <noscript>
+    <!-- 
+      <noscript> content is shown if scripts are disabled in the browser.
+    -->
+    <p>Your browser does not support JavaScript or it is disabled.</p>
+  </noscript>
+
+  <!-- OPTIONAL LINK TAG EXAMPLE FOR EXTERNAL RESOURCES 
+       (Uncomment if you want to attach an external CSS file)
+  <link rel="stylesheet" href="styles/main.css">
+  -->
+</body>
+</html>
