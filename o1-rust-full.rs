@@ -593,3 +593,412 @@ fn main() {
     // This is not strictly required, but sometimes helpful in demonstration code.
     thread::sleep(Duration::from_millis(500));
 }
+/*
+====================================
+Quicksort Algorithm (In-place)
+====================================
+Amaç:
+    Bir diziyi (slice) yerinde quicksort algoritması kullanarak
+    sıralamak. Pivot olarak son elemanı seçiyoruz.
+Gereksinimler:
+    - Yalnızca Rust standard library kullanılır.
+Çalıştırma Talimatları:
+    1. Kodu `quicksort.rs` olarak kaydedin.
+    2. `cargo run` komutuyla çalıştırın.
+Beklenen Çıktı:
+    Sıralanmış dizi ekrana yazılır.
+*/
+
+fn main() {
+    let mut data = vec![29, 10, 14, 37, 13, 14, 1, 100, 72];
+    println!("Orijinal dizi: {:?}", data);
+    
+    quicksort(&mut data);
+    println!("Sıralanmış dizi: {:?}", data);
+}
+
+/// In-place quicksort fonksiyonu.
+///
+/// # Parametreler
+/// * `arr` - Sıralanacak verileri taşıyan mutable slice.
+/// 
+/// # Açıklama
+/// 1. `quicksort` fonksiyonu `arr` boyutu 2 veya daha az ise zaten sıralı kabul eder.
+/// 2. Eğer boyut daha büyükse, pivot seçilir ve `partition` fonksiyonu ile pivotun
+///    doğru yerine yerleşmesi sağlanır. Sonrasında pivotun sol ve sağ parçaları
+///    kendi içinde recursive olarak sıralanır.
+fn quicksort(arr: &mut [i32]) {
+    let len = arr.len();
+    if len < 2 {
+        // Dizi 0 veya 1 elemanlıysa zaten sıralıdır.
+        return;
+    }
+    // Diziyi partition fonksiyonu ile böl, dönen pivot indeksi ile iki tarafta recursive çağrı yap.
+    let pivot_index = partition(arr);
+    // pivot_index konumu artık doğru sıradadır.
+    
+    // Soldaki alt dilimi (pivot hariç) quicksort ile sırala.
+    quicksort(&mut arr[0..pivot_index]);
+    // Sağdaki alt dilimi (pivot hariç) quicksort ile sırala.
+    quicksort(&mut arr[pivot_index+1..]);
+}
+
+/// `partition` fonksiyonu:
+/// * Pivot olarak slice'ın son elemanını kullanır.
+/// * Pivotun "doğru" pozisyonunu bulur ve onu oraya yerleştirir.
+/// * Pivotun solundaki elemanlar pivotdan küçük, sağındaki elemanlar pivotdan büyük olacak şekilde verileri düzenler.
+///
+/// # Döndürdüğü Değer
+/// * Pivotun yerleştirildiği (yeni) index.
+fn partition(arr: &mut [i32]) -> usize {
+    let len = arr.len();
+    let pivot = arr[len - 1];
+    let mut i = 0; // i, pivotdan küçük elemanların yerleştirileceği indexi tutar.
+
+    // Son eleman pivot, o yüzden sondan bir önceki elemana kadar inceliyoruz.
+    for j in 0..(len - 1) {
+        if arr[j] < pivot {
+            arr.swap(i, j); 
+            i += 1;
+        }
+    }
+    // Pivotu final yerine taşı (i indeksine).
+    arr.swap(i, len - 1);
+    i
+}
+/*
+=====================================
+Merge Sort Algorithm (Recursive)
+=====================================
+Amaç:
+    Bir dilimi (slice) merge sort algoritması kullanarak sıralamak.
+Gereksinimler:
+    - Yalnızca Rust standard library kullanılır.
+Çalıştırma Talimatları:
+    1. Kodu `mergesort.rs` olarak kaydedin.
+    2. `cargo run` komutuyla çalıştırın.
+Beklenen Çıktı:
+    Sıralanmış dizi ekrana yazılır.
+*/
+
+fn main() {
+    let mut data = vec![5, 2, 8, 14, 1, 9, 3];
+    println!("Orijinal veri: {:?}", data);
+    
+    mergesort(&mut data);
+    println!("Sıralanmış veri: {:?}", data);
+}
+
+/// Merge sort fonksiyonu.
+///
+/// # Mantık
+/// 1. Dizi iki parçaya bölünür.
+/// 2. Her parça ayrı ayrı merge sort edilir (recursively).
+/// 3. İki parça birleştirilir (merge).
+fn mergesort(arr: &mut [i32]) {
+    let n = arr.len();
+    // Dizi tek elemanlı veya boşsa sıralamaya gerek yok.
+    if n <= 1 {
+        return;
+    }
+    
+    // Orta noktayı bul.
+    let mid = n / 2;
+    // İki alt dilim oluştur: sol ve sağ.
+    // Rust'ta slice'ları bölerek borç alıyoruz; mutable referanslar
+    // eşzamanlı olarak farklı parçalara verilince UB olmaz.
+    mergesort(&mut arr[..mid]);
+    mergesort(&mut arr[mid..]);
+    
+    // Geçici vector ile birleştirme işlemi (merge).
+    let mut temp = Vec::with_capacity(n);
+    
+    let (mut i, mut j) = (0, mid);
+    
+    // İki dilimi de dolaşarak küçük elemanı temp'e at.
+    while i < mid && j < n {
+        if arr[i] <= arr[j] {
+            temp.push(arr[i]);
+            i += 1;
+        } else {
+            temp.push(arr[j]);
+            j += 1;
+        }
+    }
+    
+    // Kalan elemanlar varsa ekle.
+    temp.extend_from_slice(&arr[i..mid]);
+    temp.extend_from_slice(&arr[j..n]);
+    
+    // temp içeriğini tekrar arr'a kopyala.
+    arr.copy_from_slice(&temp);
+}
+/*
+==========================================
+JSON Processing with Serde
+==========================================
+Amaç:
+    Serde kullanarak bir JSON dosyasını parse etmek (okumak) ve
+    güncellenmiş hâlini yeniden JSON olarak kaydetmek.
+Kullanılacak Krate:
+    1. Serde ve serde_derive (otomatik türetme için).
+    2. Serde_json (JSON işlemleri için).
+Cargo.toml Örnek:
+    [dependencies]
+    serde = { version = "1.0", features = ["derive"] }
+    serde_json = "1.0"
+Çalıştırma Talimatları:
+    1. `cargo run` ile çalıştırın.
+    2. `data.json` isminde basit bir JSON dosyası oluşturabilirsiniz.
+         Örnek:
+         {
+           "name": "Alice",
+           "age": 30
+         }
+Beklenen Çıktı:
+    Okunan verinin güncellenmiş hâli `updated_data.json` dosyasına kaydedilir.
+*/
+
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::error::Error;
+
+/// Kişi verisini tutan struct.
+/// Derive ile Serialize ve Deserialize otomatik eklenir.
+#[derive(Serialize, Deserialize, Debug)]
+struct Person {
+    name: String,
+    age: u32,
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    // JSON dosyasını okuyalım.
+    let data = fs::read_to_string("data.json")?;
+    
+    // JSON'u `Person` tipine parse edelim.
+    let mut person: Person = serde_json::from_str(&data)?;
+    println!("Okunan kişi: {:?}", person);
+    
+    // Yaşı 1 artırıyoruz.
+    person.age += 1;
+    
+    // Yeni veriyi JSON'a çevir.
+    let updated_json = serde_json::to_string_pretty(&person)?;
+    
+    // Yeni JSON'u kaydet.
+    fs::write("updated_data.json", updated_json)?;
+    
+    println!("Veri güncellendi ve 'updated_data.json' dosyasına yazıldı.");
+    Ok(())
+}
+/*
+========================================================
+Trait ve Generics ile Özel Stack Veri Yapısı
+========================================================
+Amaç:
+    - Generic bir Stack veri yapısı oluşturmak.
+    - Bir trait tanımlamak ve bu trait’i struct üzerinde uygulamak.
+Gereksinimler:
+    - Yalnızca Rust standard library.
+Çalıştırma Talimatları:
+    1. `cargo run` komutu ile çalıştırabilirsiniz.
+    2. Kod dosyası ismi `generic_stack.rs` olabilir.
+Beklenen Çıktı:
+    Stack ile push/pop yapılan işlemler ekranda gösterilir.
+*/
+
+fn main() {
+    // i32 tipinde elemanlar tutan stack oluştur.
+    let mut int_stack = GenericStack::new();
+    int_stack.push(10);
+    int_stack.push(20);
+    int_stack.push(30);
+    
+    println!("Pop: {:?}", int_stack.pop()); // 30
+    
+    // &dyn StackTrait trait nesnesi üzerinden işlem yapalım.
+    let stack_ref: &dyn StackTrait<i32> = &int_stack;
+    println!("Top elemanı: {:?}", stack_ref.peek()); // 20
+    
+    println!("Stack uzunluğu: {}", stack_ref.size()); // 2
+}
+
+/// Bir stack üzerinde temel fonksiyonlar sağlayan bir trait.
+trait StackTrait<T> {
+    fn push(&mut self, item: T);
+    fn pop(&mut self) -> Option<T>;
+    fn peek(&self) -> Option<&T>;
+    fn size(&self) -> usize;
+}
+
+/// Generic bir stack yapısı. `Vec` kullanarak implement ediyoruz.
+struct GenericStack<T> {
+    items: Vec<T>,
+}
+
+impl<T> GenericStack<T> {
+    /// Yeni bir `GenericStack` döndüren yardımcı fonksiyon.
+    fn new() -> Self {
+        GenericStack { items: Vec::new() }
+    }
+}
+
+/// `StackTrait` traitini `GenericStack` üzerinde implemente ediyoruz.
+impl<T> StackTrait<T> for GenericStack<T> {
+    /// Stack'e eleman eklemek için push.
+    fn push(&mut self, item: T) {
+        self.items.push(item);
+    }
+    
+    /// Stack'ten eleman çıkarmak için pop.
+    fn pop(&mut self) -> Option<T> {
+        self.items.pop()
+    }
+    
+    /// Stack'in en üstündeki (en son eklenen) elemana sadece bakmak.
+    fn peek(&self) -> Option<&T> {
+        self.items.last()
+    }
+    
+    /// Stack'in kaç eleman barındırdığını döndürür.
+    fn size(&self) -> usize {
+        self.items.len()
+    }
+}
+/*
+====================================================
+Custom Macro Example
+====================================================
+Amaç:
+    Rust makrolarının (declarative macro) basit kullanımını göstermek.
+    Bu örnekte bir `vec_of_strings!` makrosu tanımlıyoruz.
+Gereksinimler:
+    - Yalnızca Rust standard library.
+Çalıştırma Talimatları:
+    1. Dosya adı `custom_macro.rs` olabilir.
+    2. `cargo run` komutu ile çalıştırabilirsiniz.
+Beklenen Çıktı:
+    vec_of_strings makrosuyla oluşturulan vektördeki elemanlar ekrana yazılır.
+*/
+
+/// Declarative macro tanımı. 
+/// `vec_of_strings!` makrosu virgülle ayrılmış string literal'lerden bir `Vec<String>` üretir.
+#[macro_export]
+macro_rules! vec_of_strings {
+    // ( $( ... ),* ) => birden fazla argüman
+    // $()* => 0 veya daha fazla tekrar
+    // $x:expr => bir ifade
+    ( $( $x:expr ),* ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                // Her ifade bir `String`e dönüştürülerek vektöre eklenir.
+                temp_vec.push($x.to_string());
+            )*
+            temp_vec
+        }
+    };
+}
+
+fn main() {
+    // Makroyu kullanarak bir string vektörü oluşturalım.
+    let fruits = vec_of_strings!("Apple", "Banana", "Cherry");
+    println!("Oluşturulan meyve listesi: {:?}", fruits);
+}
+/*
+============================================================
+Rocket Tabanlı REST API (CRUD Örneği)
+============================================================
+Amaç:
+    - Rocket kullanarak basit bir REST API oluşturma.
+    - GET, POST, PUT, DELETE örnekleri gösterilir.
+Gereksinimler:
+    1. `Rocket` krate'ini kullanır. Cargo.toml'da:
+       [dependencies]
+       rocket = "0.5.0-rc.3"  // Sürüm fark edebilir
+    2. JSON dönüşümü için `serde` + `serde_json` kullanır.
+Çalıştırma Talimatları:
+    1. `cargo run` ile projeyi başlatın.
+    2. Örnek istekler (terminal veya Postman üzerinden):
+       - GET http://127.0.0.1:8000/items
+       - POST http://127.0.0.1:8000/items  (JSON body: {"id":1,"name":"Item1"})
+       - PUT http://127.0.0.1:8000/items/1 (JSON body: {"id":1,"name":"UpdatedItem"})
+       - DELETE http://127.0.0.1:8000/items/1
+*/
+
+#[macro_use]
+extern crate rocket;
+
+use rocket::serde::{json::Json, Serialize, Deserialize};
+use std::sync::Mutex;
+use rocket::State;
+use rocket::http::Status;
+
+/// API içinde kullanacağımız basit veri modeli:
+#[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(crate = "rocket::serde")]
+struct Item {
+    id: u32,
+    name: String,
+}
+
+/// Uygulama durum verisi: item'ları tutan bir vektör.
+/// Mutex ile koruyoruz ki aynı anda birden fazla istek geldiğinde veri
+/// tutarlılığını koruyalım.
+struct AppState {
+    items: Mutex<Vec<Item>>,
+}
+
+#[get("/items")]
+fn get_items(state: &State<AppState>) -> Json<Vec<Item>> {
+    // Mutex içindeki item vektörüne thread-safe erişim.
+    let items = state.items.lock().unwrap();
+    // Clone ederek JSON'a göndersin, ownership sorunlarını aşalım.
+    Json(items.clone())
+}
+
+#[post("/items", data = "<item>")]
+fn create_item(state: &State<AppState>, item: Json<Item>) -> Status {
+    let mut items = state.items.lock().unwrap();
+    // Yeni item ekle.
+    items.push(item.into_inner());
+    // 201 Created statüsü yollayabiliriz.
+    Status::Created
+}
+
+#[put("/items/<id>", data = "<updated>")]
+fn update_item(state: &State<AppState>, id: u32, updated: Json<Item>) -> Status {
+    let mut items = state.items.lock().unwrap();
+    // Id'si eşleşen item'ı bulalım.
+    if let Some(existing_item) = items.iter_mut().find(|it| it.id == id) {
+        existing_item.name = updated.name.clone();
+        Status::Ok
+    } else {
+        // Bulunamazsa 404 Not Found
+        Status::NotFound
+    }
+}
+
+#[delete("/items/<id>")]
+fn delete_item(state: &State<AppState>, id: u32) -> Status {
+    let mut items = state.items.lock().unwrap();
+    let initial_len = items.len();
+    // Verilen id'ye sahip item'ları filtre dışı bırakarak silme işlemi.
+    items.retain(|it| it.id != id);
+    
+    if items.len() < initial_len {
+        Status::Ok
+    } else {
+        Status::NotFound
+    }
+}
+
+#[launch]
+fn rocket() -> _ {
+    // Başlangıçta boş bir item listesi ile state'i oluşturuyoruz.
+    rocket::build()
+        .manage(AppState {
+            items: Mutex::new(vec![]),
+        })
+        .mount("/", routes![get_items, create_item, update_item, delete_item])
+}
