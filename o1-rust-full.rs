@@ -1002,3 +1002,371 @@ fn rocket() -> _ {
         })
         .mount("/", routes![get_items, create_item, update_item, delete_item])
 }
+/// This function calculates the factorial of a number using recursion.
+/// - The base case is when n == 0 or n == 1, returning 1.
+/// - Otherwise, it recursively multiplies n by the factorial of (n-1).
+fn factorial(n: u64) -> u64 {
+    // If n is 0 or 1, return 1 (base case).
+    if n <= 1 {
+        1
+    } else {
+        // Recursive case: n * factorial of (n-1)
+        n * factorial(n - 1)
+    }
+}
+
+fn main() {
+    // Calculate the factorial of 5.
+    let result = factorial(5);
+    println!("Factorial of 5 is {}", result);
+}
+/// Finds the largest element in a vector of i32 values.
+/// - We handle the case where the vector might be empty.
+/// - Returns an Option<i32>, where None indicates an empty vector.
+fn find_largest(numbers: &[i32]) -> Option<i32> {
+    // Return None if the slice is empty
+    if numbers.is_empty() {
+        return None;
+    }
+
+    // Start with the first element as the largest
+    let mut largest = numbers[0];
+    // Iterate through the numbers, updating `largest` when a bigger number is found
+    for &num in numbers.iter().skip(1) {
+        if num > largest {
+            largest = num;
+        }
+    }
+
+    // Return the largest found
+    Some(largest)
+}
+
+fn main() {
+    // Example vector of numbers
+    let nums = vec![3, 8, 15, 2, 42, 7];
+    // Call our function
+    if let Some(largest) = find_largest(&nums) {
+        println!("The largest element is {}", largest);
+    } else {
+        println!("The vector is empty, no largest element found.");
+    }
+}
+fn main() {
+    // Define a sample string
+    let text = String::from("Hello, world!");
+
+    println!("Original: \"{}\"", text);
+
+    // Split the string by whitespace and commas
+    println!("After splitting:");
+    for word in text.split_whitespace() {
+        println!("\"{}\"", word);
+    }
+
+    // Create a new string by appending more text
+    let combined = format!("{} (Rusty)", text);
+    println!("Combined: \"{}\"", combined);
+}
+/// Recursively sorts a slice of i32 values in ascending order using the quicksort algorithm.
+/// - Partitions the array around a pivot.
+/// - Recursively sorts the two partitions.
+/// - Rust slice references ensure safe borrowing without data races.
+fn quicksort(arr: &mut [i32]) {
+    if arr.len() <= 1 {
+        // Base case: A slice of length 0 or 1 is already sorted
+        return;
+    }
+
+    // Partition the slice
+    let pivot_index = partition(arr);
+
+    // Recursively sort the left partition
+    quicksort(&mut arr[0..pivot_index]);
+    // Recursively sort the right partition
+    quicksort(&mut arr[pivot_index + 1..]);
+}
+
+/// Partitions the slice around a pivot (chosen here as the last element).
+/// Elements smaller than the pivot move to the left, others to the right.
+/// Returns the final pivot index.
+fn partition(arr: &mut [i32]) -> usize {
+    let pivot = arr[arr.len() - 1];
+    let mut i = 0; // This will track the boundary for elements less than pivot
+
+    // Move elements less than pivot to the front of the slice
+    for j in 0..arr.len() - 1 {
+        if arr[j] < pivot {
+            arr.swap(i, j);
+            i += 1;
+        }
+    }
+    // Finally, place the pivot after the last smaller element
+    arr.swap(i, arr.len() - 1);
+    i
+}
+
+fn main() {
+    let mut data = [10, 7, 1, 3, 5, 2];
+    quicksort(&mut data);
+    println!("Sorted array: {:?}", data);
+}
+use std::collections::VecDeque;
+
+/// Represents a graph using an adjacency list.
+/// Each node index can have multiple neighboring nodes.
+struct Graph {
+    adjacency_list: Vec<Vec<usize>>,
+}
+
+impl Graph {
+    /// Creates a new Graph with a given size.
+    fn new(size: usize) -> Self {
+        Graph {
+            adjacency_list: vec![Vec::new(); size],
+        }
+    }
+
+    /// Adds an edge between two nodes.
+    /// For a directed graph, you might only add one direction.
+    /// For an undirected graph, we add both directions.
+    fn add_edge(&mut self, from: usize, to: usize) {
+        self.adjacency_list[from].push(to);
+        self.adjacency_list[to].push(from);
+    }
+
+    /// Performs a breadth-first search (BFS) starting at `start_node`.
+    /// Prints the nodes in the order they are visited.
+    fn bfs(&self, start_node: usize) {
+        let mut visited = vec![false; self.adjacency_list.len()];
+        let mut queue = VecDeque::new();
+
+        visited[start_node] = true;
+        queue.push_back(start_node);
+
+        print!("BFS Traversal starting from node {}: ", start_node);
+
+        while let Some(current) = queue.pop_front() {
+            print!("{} ", current);
+
+            // Check all adjacent nodes
+            for &neighbor in &self.adjacency_list[current] {
+                if !visited[neighbor] {
+                    visited[neighbor] = true;
+                    queue.push_back(neighbor);
+                }
+            }
+        }
+        println!();
+    }
+}
+
+fn main() {
+    // Create a graph of 5 nodes
+    let mut graph = Graph::new(5);
+
+    // Add some edges (undirected)
+    graph.add_edge(0, 1);
+    graph.add_edge(0, 2);
+    graph.add_edge(1, 3);
+    graph.add_edge(2, 4);
+
+    // Perform BFS starting from node 0
+    graph.bfs(0);
+}
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::thread;
+
+/// Reads a file line by line, distributing lines among multiple threads.
+/// Each thread prints the line it processes. 
+/// - Demonstrates concurrency with Rust threads.
+/// - Ensures safe memory access through Rust’s ownership model.
+fn main() {
+    // Number of worker threads to spawn
+    let num_threads = 2;
+
+    // Open the file
+    let file = File::open("data.txt").expect("Unable to open file");
+    let reader = BufReader::new(file);
+
+    // Collect all lines into a vector
+    let lines: Vec<String> = reader
+        .lines()
+        .map(|l| l.expect("Could not read line"))
+        .collect();
+
+    // Create threads, distributing the lines among them
+    let mut handles = Vec::new();
+    for thread_id in 0..num_threads {
+        // Clone lines vector to move into the thread
+        let lines_clone = lines.clone();
+
+        // Spawn a new thread
+        let handle = thread::spawn(move || {
+            // Process lines assigned to this thread
+            for (index, line) in lines_clone.iter().enumerate() {
+                if index % num_threads == thread_id {
+                    println!("Thread {} read line: {}", thread_id, line);
+                }
+            }
+        });
+
+        // Push thread handle into vector for later joining
+        handles.push(handle);
+    }
+
+    // Join all threads to ensure they finish before exiting main
+    for handle in handles {
+        handle.join().expect("Thread panicked");
+    }
+}
+fn main() {
+    // Create a mutable integer
+    let mut num = 42;
+
+    // Obtain a raw pointer to num
+    let r1 = &mut num as *mut i32;
+
+    // `unsafe` block needed to dereference raw pointers
+    unsafe {
+        // Print the original value through raw pointer dereference
+        println!("Original number: {}", *r1);
+
+        // Modify the value
+        *r1 = 100;
+
+        // Print the changed value
+        println!("Changed number: {}", *r1);
+    }
+}
+use actix_web::{get, web, App, HttpServer, Responder};
+use serde::Serialize;
+
+/// A simple struct used for serializing a JSON response.
+#[derive(Serialize)]
+struct HelloResponse {
+    message: String,
+}
+
+/// Define a handler for GET requests to "/hello".
+#[get("/hello")]
+async fn hello() -> impl Responder {
+    // Construct a JSON response using the HelloResponse struct
+    web::Json(HelloResponse {
+        message: "Hello from Actix!".to_string(),
+    })
+}
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    // Start an HTTP server binding to local address 127.0.0.1:8080
+    HttpServer::new(|| {
+        // Build our application with the hello endpoint
+        App::new().service(hello)
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
+}
+use csv::ReaderBuilder;
+use std::error::Error;
+use std::fs::File;
+
+/// Reads a CSV file where each row has a single integer column titled "value".
+/// Summarizes these values and prints the total sum to stdout.
+fn main() -> Result<(), Box<dyn Error>> {
+    // Open the CSV file
+    let file = File::open("data.csv")?;
+    // Create a CSV reader; flexible options with ReaderBuilder
+    let mut rdr = ReaderBuilder::new()
+        .has_headers(true) // the file has a header row
+        .from_reader(file);
+
+    let mut sum = 0;
+
+    // Iterate over each record
+    for result in rdr.records() {
+        // Parse the record (a single line in the CSV)
+        let record = result?;
+        // Convert the value from string to integer
+        let value: i32 = record.get(0).unwrap_or("0").parse()?;
+        sum += value;
+    }
+
+    println!("Sum of column: {}", sum);
+    Ok(())
+}
+use clap::Parser;
+use std::fs;
+use std::io::{self, Read};
+
+/// Command-line arguments for our word-count tool.
+/// - The `file` argument takes a path to a text file.
+#[derive(Parser, Debug)]
+#[command(name = "word_counter")]
+#[command(version = "1.0")]
+#[command(about = "Counts words in a text file", long_about = None)]
+struct Cli {
+    /// Path to the text file
+    #[arg(short, long)]
+    file: String,
+}
+
+fn main() -> io::Result<()> {
+    // Parse command-line arguments
+    let args = Cli::parse();
+
+    // Read the file contents
+    let contents = fs::read_to_string(&args.file)?;
+
+    // Count the words by splitting on whitespace
+    let word_count = contents.split_whitespace().count();
+
+    // Print the result
+    println!("The file \"{}\" contains {} words.", args.file, word_count);
+
+    Ok(())
+}
+use ndarray::{arr1, Array1};
+
+/// Implements a simple linear regression y = w * x + b using gradient descent.
+/// Demonstrates how ndarray can be used for vectorized math operations.
+fn main() {
+    // Example data: We want to learn the function y = 3x + 2
+    let x_data = arr1(&[1.0, 2.0, 3.0, 4.0]); 
+    let y_data = arr1(&[5.0, 8.0, 11.0, 14.0]);
+
+    // Hyperparameters
+    let learning_rate = 0.01;
+    let epochs = 1000;
+
+    // Initialize weights (w) and bias (b) to 0.0
+    let mut w = 0.0;
+    let mut b = 0.0;
+
+    println!("Initial weights: {}", w);
+    println!("Initial bias: {}", b);
+
+    // Gradient descent
+    for _ in 0..epochs {
+        // Forward pass: predict = w*x_data + b
+        let y_pred: Array1<f64> = &x_data * w + b;
+
+        // Compute errors
+        let error = &y_pred - &y_data;
+
+        // Calculate gradients (dL/dw, dL/db) 
+        // For mean squared error: gradient w.r.t w is (2/N)*Σ((y_pred - y_data)*x_data)
+        // gradient w.r.t b is (2/N)*Σ(y_pred - y_data)
+        let dw = (2.0 / x_data.len() as f64) * (&error * &x_data).sum();
+        let db = (2.0 / x_data.len() as f64) * error.sum();
+
+        // Update parameters
+        w -= learning_rate * dw;
+        b -= learning_rate * db;
+    }
+
+    println!("Final weights: {}", w);
+    println!("Final bias: {}", b);
+}
