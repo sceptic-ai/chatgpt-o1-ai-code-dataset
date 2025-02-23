@@ -1,0 +1,362 @@
+<!-- 
+  This is an extended HTML5 file showcasing a diverse set of features, 
+  including more advanced or specific usages. All comments are in English.
+  You can use or adapt this document for your projects or data analysis. 
+-->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" itemscope itemtype="https://schema.org/WebPage">
+<!-- 
+  itemscope itemtype="https://schema.org/WebPage" 
+    - Example of using Schema.org microdata to describe this page as a "WebPage".
+  lang="en" 
+    - Specifies the language of the document as English.
+  dir="ltr" 
+    - Indicates a left-to-right reading direction.
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Specifies UTF-8 character encoding. -->
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Allows Internet Explorer to use the latest rendering engine. -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Ensures the page is responsive on mobile devices. -->
+
+  <meta name="description" content="An extended HTML example with advanced tags and attributes.">
+  <meta name="author" content="Your Name or Organization">
+  <!-- Additional meta tags for description and author. -->
+
+  <meta name="theme-color" content="#ffffff">
+  <!-- Used by some browsers to set the theme color of the page (often for mobile Chrome UI). -->
+
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <!-- Favicon for the browser tab. -->
+
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <!-- Custom icon for Apple devices. -->
+
+  <link rel="manifest" href="manifest.json">
+  <!-- For Progressive Web App configuration (PWA). -->
+
+  <title>Extended HTML Example with Advanced Features</title>
+  <!-- Title of the document displayed in the browser tab. -->
+
+  <style>
+    /* 
+      Basic internal CSS to style various elements.
+      We keep it short and relevant to highlight some advanced tags.
+    */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      background-color: #f8f8f8;
+    }
+
+    header, main, nav, aside, section, article, footer {
+      padding: 1rem;
+      margin: 1rem;
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    .highlight {
+      background-color: #ffeeba;
+    }
+
+    /* ARIA example: style element with role="navigation" specifically */
+    [role="navigation"] {
+      background-color: #e7f3fe;
+    }
+
+    /* 
+      Example for <dialog>. We ensure it's centered when open 
+      with a bit of custom CSS.
+    */
+    dialog {
+      border: 2px solid #444;
+      border-radius: 8px;
+      padding: 1rem;
+    }
+  </style>
+</head>
+
+<body itemprop="mainContentOfPage">
+  <!-- 
+    itemprop="mainContentOfPage" 
+      - Additional microdata annotation from schema.org
+  -->
+
+  <!-- HEADER SECTION -->
+  <header>
+    <h1 itemprop="headline">Extended HTML Example with Advanced Features</h1>
+    <!-- 
+      itemprop="headline" for microdata indicating the headline of the page.
+    -->
+
+    <p>
+      <bdi>Tip:</bdi> This file includes usage of advanced HTML elements, microdata, 
+      ARIA attributes, and more. Explore the comments in the code to learn about each feature.
+    </p>
+    <!-- 
+      <bdi> (bi-directional isolation) is used to isolate a segment of text 
+      that might have a different directionality from its surroundings.
+    -->
+  </header>
+
+  <!-- NAVIGATION (With ARIA attribute) -->
+  <nav role="navigation" aria-label="Main Navigation">
+    <!-- 
+      role="navigation" to help screen readers identify this section as navigation.
+      aria-label defines an accessible name for this navigation.
+    -->
+    <ul>
+      <li><a href="#advanced-media">Advanced Media</a></li>
+      <li><a href="#microdata">Microdata Section</a></li>
+      <li><a href="#dialog">Dialog Tag</a></li>
+      <li><a href="#image-map">Image Map</a></li>
+      <li><a href="#template">Template Tag</a></li>
+      <li><a href="#forms">Advanced Form Inputs</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- ADVANCED MEDIA SECTION -->
+    <section id="advanced-media">
+      <h2>Advanced Media Usage</h2>
+      <p>
+        Below is an example of a responsive image setup using the <code>&lt;picture&gt;</code> tag 
+        combined with <code>srcset</code> and <code>sizes</code> attributes to provide 
+        different image sources for different device widths.
+      </p>
+
+      <picture>
+        <!-- 
+          <picture> allows specifying multiple sources for responsive images or different file formats.
+        -->
+        <source
+          srcset="images/example-small.jpg 480w, images/example-medium.jpg 800w, images/example-large.jpg 1200w"
+          sizes="(max-width: 600px) 480px, (max-width: 1024px) 800px, 1200px"
+          type="image/jpeg"
+        />
+        <img src="images/example-large.jpg" alt="A responsive image example" width="300">
+        <!-- 
+          The <img> inside <picture> is the fallback if none of the <source> tags match.
+        -->
+      </picture>
+
+      <p>
+        Next is a demonstration of <strong>audio with custom controls</strong> using HTML + JavaScript.
+      </p>
+
+      <audio id="customAudio" src="media/audio-sample.mp3" preload="auto"></audio>
+      <!-- 
+        Plain <audio> element without the 'controls' attribute.
+        We will provide custom controls via JavaScript.
+      -->
+
+      <div>
+        <button type="button" onclick="document.getElementById('customAudio').play()">Play</button>
+        <button type="button" onclick="document.getElementById('customAudio').pause()">Pause</button>
+      </div>
+
+      <p>
+        The <code>&lt;video&gt;</code> example below demonstrates the use of 
+        poster image and a caption track. 
+      </p>
+
+      <video width="320" height="240" controls poster="images/video-poster.jpg">
+        <source src="media/example-video.mp4" type="video/mp4">
+        <!-- Example of closed-caption track -->
+        <track src="media/captions.vtt" kind="captions" srclang="en" label="English">
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <!-- MICRODATA SECTION -->
+    <section id="microdata" itemscope itemtype="https://schema.org/Person">
+      <!-- 
+        We are specifying microdata that describes a Person according to schema.org.
+      -->
+      <h2>Microdata Example</h2>
+      <p>
+        <strong>Name:</strong> <span itemprop="name">Jane Doe</span><br>
+        <strong>Job Title:</strong> <span itemprop="jobTitle">Software Engineer</span><br>
+        <strong>Email:</strong> <a href="mailto:jane.doe@example.com" itemprop="email">jane.doe@example.com</a><br>
+        <strong>Website:</strong> <a href="https://example.com" itemprop="url">example.com</a>
+      </p>
+      <p itemprop="description">
+        Jane Doe is an experienced software engineer with expertise in web development 
+        and advanced application architecture.
+      </p>
+    </section>
+
+    <!-- DIALOG SECTION -->
+    <section id="dialog">
+      <h2>Dialog Element</h2>
+      <p>
+        Below is a <code>&lt;dialog&gt;</code> element which can be used to create 
+        a native modal or non-modal dialog in HTML. It can be shown or hidden 
+        via JavaScript. 
+      </p>
+      <button type="button" onclick="document.getElementById('infoDialog').showModal()">Open Dialog</button>
+
+      <dialog id="infoDialog">
+        <form method="dialog">
+          <p>Dialog content goes here, such as an alert or prompt.</p>
+          <menu>
+            <!-- 
+              <menu> inside a dialog is an optional semantic container 
+              for action buttons in the dialog.
+            -->
+            <button value="confirm">OK</button>
+            <button value="cancel">Cancel</button>
+          </menu>
+        </form>
+      </dialog>
+    </section>
+
+    <!-- IMAGE MAP SECTION -->
+    <section id="image-map">
+      <h2>Image Map Example</h2>
+      <p>
+        An <code>image map</code> allows multiple clickable areas on a single image, 
+        each directing the user to a different link or performing different actions.
+      </p>
+      <img src="images/world-map.jpg" alt="World Map" usemap="#worldMap" width="600" height="400">
+      <map name="worldMap">
+        <!-- 
+          The map is defined by <map> with a "name" that corresponds to the "usemap" attribute on the <img>.
+        -->
+        <area shape="rect" coords="50,50,150,150" href="https://example.com/north-america" alt="North America">
+        <area shape="circle" coords="300,200,50" href="https://example.com/south-america" alt="South America">
+        <area shape="poly" coords="400,50,550,80,540,180,420,210" href="https://example.com/africa" alt="Africa">
+      </map>
+    </section>
+
+    <!-- TEMPLATE TAG SECTION -->
+    <section id="template">
+      <h2>Template Tag Example</h2>
+      <p>
+        The <code>&lt;template&gt;</code> element holds content that is not rendered 
+        until activated via JavaScript.
+      </p>
+
+      <!-- Hidden template definition -->
+      <template id="cardTemplate">
+        <article class="highlight" style="border:2px solid #ccc; margin: 0.5rem 0;">
+          <h3>Template Title</h3>
+          <p>This content was cloned from a template!</p>
+        </article>
+      </template>
+
+      <button type="button" onclick="addTemplateContent()">Add Template Content</button>
+      <div id="templateContainer"></div>
+
+      <script>
+        function addTemplateContent() {
+          const template = document.getElementById('cardTemplate');
+          const container = document.getElementById('templateContainer');
+
+          // Clone the template content and append it to the container
+          const clone = document.importNode(template.content, true);
+          container.appendChild(clone);
+        }
+      </script>
+    </section>
+
+    <!-- ADVANCED FORMS SECTION -->
+    <section id="forms">
+      <h2>Advanced Form Inputs</h2>
+      <p>
+        Below are examples of newer input types and attributes:
+      </p>
+
+      <form action="#" method="post">
+        <label for="emailInput">Email:</label>
+        <input type="email" id="emailInput" name="emailInput" placeholder="username@example.com" required>
+        <!-- HTML5 email type with validation and placeholder. -->
+        <br><br>
+
+        <label for="searchInput">Search:</label>
+        <input type="search" id="searchInput" name="searchInput" placeholder="Type to search...">
+        <!-- HTML5 search input. -->
+        <br><br>
+
+        <label for="urlInput">Website:</label>
+        <input type="url" id="urlInput" name="urlInput" placeholder="https://example.com" pattern="https?://.+">
+        <!-- HTML5 url type with pattern for basic URL validation. -->
+        <br><br>
+
+        <label for="rangeInput">Volume (range input):</label>
+        <input type="range" id="rangeInput" name="volume" min="0" max="100" step="5" value="50">
+        <br><br>
+
+        <label for="dateInput">Birthday (date input):</label>
+        <input type="date" id="dateInput" name="dateInput">
+        <!-- HTML5 date picker. -->
+        <br><br>
+
+        <label for="datetimeInput">Appointment (datetime-local):</label>
+        <input type="datetime-local" id="datetimeInput" name="datetimeInput">
+        <!-- HTML5 combined date+time picker. -->
+        <br><br>
+
+        <label for="fileInput">Upload File:</label>
+        <input type="file" id="fileInput" name="fileInput" accept=".jpg, .png, .pdf">
+        <!-- Restrict accepted file types. -->
+        <br><br>
+
+        <label for="numberInput">Enter a Number (1-10):</label>
+        <input type="number" id="numberInput" name="numberInput" min="1" max="10" value="5">
+        <br><br>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- ASIDE SECTION -->
+  <aside aria-labelledby="aside-heading" aria-describedby="aside-desc">
+    <!-- 
+      aria-labelledby references an element that labels this region 
+      aria-describedby references an element that provides more details about this region
+    -->
+    <h2 id="aside-heading">Side Note</h2>
+    <p id="aside-desc">
+      This aside section can contain additional information or advertisements 
+      related to the main content.
+    </p>
+  </aside>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <p>&copy; 2025 Extended Example Website. All rights reserved.</p>
+    <p>
+      Created by <span itemprop="author">Your Name or Organization</span>.
+    </p>
+    <small>Last updated on <time datetime="2025-02-23">February 23, 2025</time>.</small>
+  </footer>
+
+  <!-- NOSCRIPT SECTION -->
+  <noscript>
+    <!-- 
+      <noscript> content is displayed only if the user has disabled JavaScript. 
+    -->
+    <p>Your browser does not support JavaScript or it is disabled.</p>
+  </noscript>
+
+  <!-- OPTIONAL EXTERNAL SCRIPT EXAMPLE 
+       Uncomment if you want to link an external JS file
+  <script src="scripts/app.js"></script>
+  -->
+</body>
+</html>
